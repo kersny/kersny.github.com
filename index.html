@@ -1,0 +1,62 @@
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="style.css" />
+<script type="text/javascript" src="JSLINQ.js"></script>
+<script type='text/javascript' src='jquery-1.4.2.min.js'></script>
+<script type='text/javascript' src='raphael-min.js'></script>
+<script type='text/javascript' src='js.js'></script>
+</head>
+<body>
+<div id=instructions>
+<h3><strong>Javascript + HTML5 Canvas K-Means Demonstration</strong></h3>
+<p></p>
+<ol>
+<li>
+Click on some points in the grid on the right (they will turn white)
+</li>
+<li>
+When you have a bunch selected, choose a number of clusters for the algorithm to find and then click <strong>Go!</strong>
+</li>
+<li>
+The Circles shown are the centers of the clusters (the number you chose) of the points you selected
+</li>
+<li>
+If the results seem to suck, click <strong>Go!</strong> again and it will recalculate
+</li>
+<li>
+Click <strong>Clear</strong> (Or don't!) and try again
+</li>
+</ol>
+<p></p>
+Uses the following frameworks:
+<ul>
+<li><a href="http://github.com/Marak/JSLINQ">JSLINQ</a></li>
+<li><a href="http://jquery.com/">JQuery 1.4.2</a></li>
+<li><a href="http://raphaeljs.com/">Raphael</a></li>
+</ul>
+</div>
+<div id=cvs>
+</div>
+<div id=in>
+Number of Clusters:
+<select id=num>
+  <option>1</option>
+  <option>2</option>
+  <option>3</option>
+  <option>4</option>
+  <option>5</option>
+  <option>6</option>
+  <option>7</option>
+  <option>8</option>
+  <option>9</option>
+  <option>10</option>
+</select>
+<br>
+<button id=go>Go!</button>
+<br>
+<button id=clr>Clear Grid</button>
+<br>
+<button id=rnd>Randomize</button>
+</div>
+</body>
+</html>

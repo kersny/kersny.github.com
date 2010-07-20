@@ -1,0 +1,31 @@
+body {
+  background-color:#111;
+  width: 1200px;
+  margin-left: 20px;
+  margin-right: auto ;
+}
+#instructions {
+  width: 300px;
+  float: left;
+  color: #ddd;
+  margin-right: 10px;
+  margin-right: 20px;
+}
+#cvs {
+  width: 601px ;
+  background-color:#fff;
+  float: left;
+}
+#in {
+  color: #fff;
+  margin-left: 10px;
+  float: left;
+}
+strong {
+  color: #999
+}
+
+a:link {color: #ddd; text-decoration: underline; }
+a:active {color: #999; text-decoration: underline; }
+a:visited {color: #ddd; text-decoration: underline; }
+a:hover {color: #999; text-decoration: none; }
