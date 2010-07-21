@@ -2,6 +2,8 @@ var nodes = [];
 var circles = [];
 //var paper;
 Raphael.fn.line = function (ptone, pttwo) {
+    if (!(ptone instanceof Point) || !(pttwo instanceof Point))
+      throw "Input to Line must be Two Points"
     //var str1 = "M" + ((ptone.x * 30) + 13.5) + " " + ((ptone.y * 30) + 13.5) + "L" + ((pttwo.x * 30) + 13.5) + " "  + ((pttwo.y * 30) + 13.5)
     //Below is faster than above, at least in a Node.js Benchmark (214 ms over 1 million iterations)
     var arr = [];
@@ -17,6 +19,11 @@ Raphael.fn.line = function (ptone, pttwo) {
     return this.path(str);
 };
 
+Raphael.el.asPoint = function() {
+  var color = Raphael.getRGB(this.attr("fill"));
+  return new Point(this.x, this.y, parseInt(color.r), parseInt(color.g), parseInt(color.b));
+}
+
 
 $(function() {
   var paper = Raphael("cvs", 601, 601);
@@ -25,16 +32,12 @@ $(function() {
       var node = paper.rect((x * 30) + 2, (y * 30) + 2, 27, 27);
       node.x = x;
       node.y = y;
-      node.attr({fill: "#333", stroke: "#333"});
+      node.attr({fill: "#000", stroke: "#000"});
       node.click(function (ev) {
-        if (this.attr("fill") == "#333")
-        {
-          this.attr("fill", "#fff");
-        }
-        else
-        {
-          this.attr("fill", "#333");
-        }
+        var red = $('#r').val();
+        var green = $('#g').val();
+        var blue = $('#b').val();
+        this.attr("fill", rgb(red, green, blue));
       });
       nodes.push(node);
     }
@@ -44,7 +47,7 @@ $(function() {
     for (var i in nodes) {
       var node = nodes[i];
       if (Math.random() > 0.8) {
-        node.attr("fill", "#fff");
+        node.attr("fill", randomColor());
       }
     }
   });
@@ -54,7 +57,7 @@ $(function() {
 
   var clear = function() {
     for (var nodei in nodes) {
-      nodes[nodei].attr("fill", "#333");
+      nodes[nodei].attr("fill", "#000");
     }
     var l = circles.length;
     for (var i = 0; i < l; i++) {
@@ -68,7 +71,7 @@ $(function() {
     }
     
     var clusters = parseInt($('#num').val(), 10);
-    var sample = JSLINQ(nodes).Where(function (item) {return item.attr("fill") == "#fff";}).items;
+    var sample = JSLINQ(nodes).Where(function (item) {return item.attr("fill") != "#000";}).items;
     if (sample.length < 1)
       return;
     var randoms = [];
@@ -105,8 +108,11 @@ $(function() {
       if (it.relations.hasOwnProperty(prop)) {
         var center = it.newpts[prop];
         var points = it.relations[prop];
+        //console.log(it);
+        //console.log(center);
+        //console.log(points);
         for (var point in points) {
-          circles.push(paper.line(center, points[point]));
+          circles.push(paper.line(center, points[point].asPoint()));
         }
       }
     }
@@ -116,22 +122,41 @@ $(function() {
       var x = pt.x * 30 + 2 + 13.5;
       var y = pt.y * 30 + 2 + 13.5;
       var color = colors[Math.floor(Math.random()*colors.length)];
-      circles.push(paper.circle(x, y, 30).attr({"fill": color, "opacity": 0.5, "fill-opacity": 0.5}));
+      circles.push(paper.circle(x, y, 30).attr({"fill": color, "opacity": 0.75, "fill-opacity": 0.75}));
     }
+  });
+  $('#goblack').click(function() {
+    setcolor(0,0,0);
+  });
+  $('#gowhite').click(function() {
+    setcolor(255,255,255);
+  });
+  $('#gored').click(function() {
+    setcolor(255,0,0);
+  });
+  $('#gogreen').click(function() {
+    setcolor(0,255,0);
+  });
+  $('#goblue').click(function() {
+    setcolor(0,0,255);
   });
 });
 
 var distance = function(ptone, pttwo) {
-  return Math.sqrt(Math.pow(pttwo.x-ptone.x, 2) + Math.pow(pttwo.y-ptone.y, 2));
+  return Math.sqrt(Math.pow(pttwo.x-ptone.x, 2) + Math.pow(pttwo.y-ptone.y, 2) + Math.pow(pttwo.r-ptone.r, 2) + Math.pow(pttwo.g-ptone.g, 2) + Math.pow(pttwo.b-ptone.b, 2));
 };
 
 var average = function(arr) {
-  var ret = {x:0, y:0};
+  var ret = new Point(0,0,0,0,0);
   for (var i in arr) {
-    ret.x += arr[i].x;
-    ret.y += arr[i].y;
+    var tst = arr[i].asPoint();
+    ret.x += tst.x;
+    ret.y += tst.y;
+    ret.r += tst.r;
+    ret.g += tst.g;
+    ret.b += tst.b;
   };
-  return {x: ret.x/arr.length, y: ret.y/arr.length};
+  return new Point(ret.x/arr.length, ret.y/arr.length, ret.r/arr.length, ret.g/arr.length, ret.b/arr.length);
 };
 
 var runIteration = function(points, inpoints) {
@@ -143,7 +168,7 @@ var runIteration = function(points, inpoints) {
     var dist = Number.MAX_VALUE;
     for (var j in inpoints) {
       var inpoint = inpoints[j];
-      var d = distance(inpoint, pt);
+      var d = distance(inpoint, pt.asPoint());
       if (d < dist) {
         index = j;
         dist = d;
@@ -179,8 +204,6 @@ var runIteration = function(points, inpoints) {
 };
 var close = function(init, fin) {
   if (init.length != fin.length) {
-    console.log(init);
-    console.log(fin);
     throw "Different Lengths";
   }
 
@@ -193,13 +216,47 @@ var close = function(init, fin) {
     if (initialval.y - finalval.y > 0.01 || finalval.y - initialval.y > 0.01) {
       return false;
     }
+    if (initialval.r - finalval.r > 0.01 || finalval.r - initialval.r > 0.01) {
+      return false;
+    }
+    if (initialval.g - finalval.g > 0.01 || finalval.g - initialval.g > 0.01) {
+      return false;
+    }
+    if (initialval.b - finalval.b > 0.01 || finalval.b - initialval.b > 0.01) {
+      return false;
+    }
   }
   return true;
 };
 
 var randomPoint = function() {
-  var ret = {};
-  ret.x = Math.random() * 19;
-  ret.y = Math.random() * 19;
+  x = Math.random() * 19;
+  y = Math.random() * 19;
+  r = Math.random() * 255;
+  g = Math.random() * 255;
+  b = Math.random() * 255;
+  var ret = new Point(x, y, r, g, b);
   return ret;
 };
+
+var setcolor = function(r, g, b) {
+  $('#r').val(r);
+  $('#g').val(g);
+  $('#b').val(b);
+}
+
+var randomColor = function() {
+  return rgb(Math.random() * 255, Math.random() * 255, Math.random() * 255);
+}
+
+var rgb = function(r, g, b) {
+  var arr = [];
+  arr.push("rgb(");
+  arr.push(r);
+  arr.push(", ");
+  arr.push(g);
+  arr.push(", ");
+  arr.push(b);
+  arr.push(")");
+  return arr.join('');
+}

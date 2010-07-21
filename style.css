@@ -29,3 +29,9 @@ a:link {color: #ddd; text-decoration: underline; }
 a:active {color: #999; text-decoration: underline; }
 a:visited {color: #ddd; text-decoration: underline; }
 a:hover {color: #999; text-decoration: none; }
+
+.col {
+  width: 30px;
+  float: left;
+  height: 15px;
+}
