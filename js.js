@@ -230,11 +230,11 @@ var close = function(init, fin) {
 };
 
 var randomPoint = function() {
-  x = Math.random() * 19;
-  y = Math.random() * 19;
-  r = Math.random() * 255;
-  g = Math.random() * 255;
-  b = Math.random() * 255;
+  var x = Math.random() * 19;
+  var y = Math.random() * 19;
+  var r = Math.random() * 255;
+  var g = Math.random() * 255;
+  var b = Math.random() * 255;
   var ret = new Point(x, y, r, g, b);
   return ret;
 };
