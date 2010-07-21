@@ -196,7 +196,7 @@ var runIteration = function(points, inpoints) {
 	      newpoints.push(average(relations[k]));
 	    }
 	    else {
-	      newpoints.push({});
+	      newpoints.push(randomPoint());
       }
 		}
   }
