@@ -24,7 +24,6 @@ Raphael.el.asPoint = function() {
   return new Point(this.x, this.y, parseInt(color.r), parseInt(color.g), parseInt(color.b));
 }
 
-
 $(function() {
   var paper = Raphael("cvs", 601, 601);
   for (var x = 0; x < 20; x++) {
@@ -136,7 +135,7 @@ $(function() {
   });
   $('#gogreen').click(function() {
     setcolor(0,255,0);
-  });
+  })
   $('#goblue').click(function() {
     setcolor(0,0,255);
   });
@@ -210,19 +209,19 @@ var close = function(init, fin) {
   for (var i in init) {
     var initialval = init[i];
     var finalval = fin[i];
-    if (initialval.x - finalval.x > 0.01 || finalval.x - initialval.x > 0.01) {
+    if (Math.abs(initialval.x - finalval.x > 0.01)) {
       return false;
     }
-    if (initialval.y - finalval.y > 0.01 || finalval.y - initialval.y > 0.01) {
+    if (Math.abs(initialval.y - finalval.y > 0.01)) {
       return false;
     }
-    if (initialval.r - finalval.r > 0.01 || finalval.r - initialval.r > 0.01) {
+    if (Math.abs(initialval.r - finalval.r > 0.01)) {
       return false;
     }
-    if (initialval.g - finalval.g > 0.01 || finalval.g - initialval.g > 0.01) {
+    if (Math.abs(initialval.g - finalval.g > 0.01)) {
       return false;
     }
-    if (initialval.b - finalval.b > 0.01 || finalval.b - initialval.b > 0.01) {
+    if (Math.abs(initialval.b - finalval.b > 0.01)) {
       return false;
     }
   }
@@ -235,8 +234,7 @@ var randomPoint = function() {
   var r = Math.random() * 255;
   var g = Math.random() * 255;
   var b = Math.random() * 255;
-  var ret = new Point(x, y, r, g, b);
-  return ret;
+  return new Point(x, y, r, g, b);
 };
 
 var setcolor = function(r, g, b) {

@@ -1,8 +1,12 @@
 body {
+  font-family: 'Inconsolata', arial, serif;
   background-color:#111;
   width: 1200px;
   margin-left: 20px;
   margin-right: auto ;
+}
+#all {
+  margin-top: 30px;
 }
 #instructions {
   width: 300px;

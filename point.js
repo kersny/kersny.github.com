@@ -5,7 +5,3 @@ function Point(x, y, r, g, b) {
   this.g = g;
   this.b = b;
 }
-
-Point.prototype = {
-  
-}
