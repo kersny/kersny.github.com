@@ -24,7 +24,7 @@ Raphael.el.asPoint = function() {
   return new Point(this.x, this.y, parseInt(color.r), parseInt(color.g), parseInt(color.b));
 }
 
-$(function() {
+window.onload = function() {
   var paper = Raphael("cvs", 601, 601);
   for (var x = 0; x < 20; x++) {
     for (var y = 0; y < 20; y++) {
@@ -139,7 +139,7 @@ $(function() {
   $('#goblue').click(function() {
     setcolor(0,0,255);
   });
-});
+};
 
 var distance = function(ptone, pttwo) {
   return Math.sqrt(Math.pow(pttwo.x-ptone.x, 2) + Math.pow(pttwo.y-ptone.y, 2) + Math.pow(pttwo.r-ptone.r, 2) + Math.pow(pttwo.g-ptone.g, 2) + Math.pow(pttwo.b-ptone.b, 2));
