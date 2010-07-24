@@ -161,6 +161,7 @@ var distance = function(ptone, pttwo) {
 
 var average = function(arr) {
   var ret = new Point(0,0,0,0,0);
+  var len = arr.length;
   for (var i in arr) {
     var tst = arr[i].asPoint();
     ret.x += tst.x;
@@ -169,7 +170,7 @@ var average = function(arr) {
     ret.g += tst.g;
     ret.b += tst.b;
   };
-  return new Point(ret.x/arr.length, ret.y/arr.length, ret.r/arr.length, ret.g/arr.length, ret.b/arr.length);
+  return new Point(ret.x/len, ret.y/len, ret.r/len, ret.g/len, ret.b/len);
 };
 
 var runIteration = function(points, inpoints) {
