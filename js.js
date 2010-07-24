@@ -79,7 +79,12 @@ window.onload = function() {
     }
     
     var clusters = parseInt(document.getElementById('num').value, 10);
-    var sample = JSLINQ(nodes).Where(function (item) {return item.attr("fill") != "#000";}).items;
+    var sample = [];
+    for (var i in nodes) {
+      var node = nodes[i];
+      if (node.attr("fill") != "#000")
+        sample.push(node);
+    }
     if (sample.length < 1)
       return;
     var randoms = [];
