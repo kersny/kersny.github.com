@@ -1,5 +1,13 @@
 var nodes = [];
 var circles = [];
+var r;
+var g;
+var b;
+var init = function() {
+  r = document.getElementById('r');
+  g = document.getElementById('g');
+  b = document.getElementById('b');
+}
 //var paper;
 Raphael.fn.line = function (ptone, pttwo) {
     if (!(ptone instanceof Point) || !(pttwo instanceof Point))
@@ -25,6 +33,7 @@ Raphael.el.asPoint = function() {
 }
 
 window.onload = function() {
+  init();
   var paper = Raphael("cvs", 601, 601);
   for (var x = 0; x < 20; x++) {
     for (var y = 0; y < 20; y++) {
@@ -33,9 +42,9 @@ window.onload = function() {
       node.y = y;
       node.attr({fill: "#000", stroke: "#000"});
       node.click(function (ev) {
-        var red = $('#r').val();
-        var green = $('#g').val();
-        var blue = $('#b').val();
+        var red = r.value;
+        var green = g.value;
+        var blue = b.value;
         this.attr("fill", rgb(red, green, blue));
       });
       nodes.push(node);
@@ -69,7 +78,7 @@ window.onload = function() {
       circles.pop().remove();
     }
     
-    var clusters = parseInt($('#num').val(), 10);
+    var clusters = parseInt(document.getElementById('num').value, 10);
     var sample = JSLINQ(nodes).Where(function (item) {return item.attr("fill") != "#000";}).items;
     if (sample.length < 1)
       return;
@@ -237,10 +246,10 @@ var randomPoint = function() {
   return new Point(x, y, r, g, b);
 };
 
-var setcolor = function(r, g, b) {
-  $('#r').val(r);
-  $('#g').val(g);
-  $('#b').val(b);
+var setcolor = function(re, gr, bl) {
+  r.value = re;
+  g.value = gr;
+  b.value = bl;;
 }
 
 var randomColor = function() {
