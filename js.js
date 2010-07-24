@@ -42,17 +42,17 @@ window.onload = function() {
     }
   }
 
-  $('#rnd').click(function() {
+  document.getElementById('rnd').onclick = function() {
     for (var i in nodes) {
       var node = nodes[i];
       if (Math.random() > 0.8) {
         node.attr("fill", randomColor());
       }
     }
-  });
-  $('#clr').click(function() {
+  };
+  document.getElementById('clr').onclick = function() {
     clear();
-  });
+  };
 
   var clear = function() {
     for (var nodei in nodes) {
@@ -63,7 +63,7 @@ window.onload = function() {
       circles.pop().remove();
     }
   };
-  $('#go').click(function() {
+  document.getElementById('go').onclick = function() {
     var l = circles.length;
     for (var i = 0; i < l; i++) {
       circles.pop().remove();
@@ -123,22 +123,22 @@ window.onload = function() {
       var color = colors[Math.floor(Math.random()*colors.length)];
       circles.push(paper.circle(x, y, 30).attr({"fill": color, "opacity": 0.75, "fill-opacity": 0.75}));
     }
-  });
-  $('#goblack').click(function() {
+  };
+  document.getElementById('goblack').onclick = function() {
     setcolor(0,0,0);
-  });
-  $('#gowhite').click(function() {
+  }
+  document.getElementById('gowhite').onclick = function() {
     setcolor(255,255,255);
-  });
-  $('#gored').click(function() {
+  }
+  document.getElementById('gored').onclick = function() {
     setcolor(255,0,0);
-  });
-  $('#gogreen').click(function() {
+  }
+  document.getElementById('gogreen').onclick = function() {
     setcolor(0,255,0);
-  })
-  $('#goblue').click(function() {
+  }
+  document.getElementById('goblue').onclick = function() {
     setcolor(0,0,255);
-  });
+  }
 };
 
 var distance = function(ptone, pttwo) {
